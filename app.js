@@ -1,10 +1,4 @@
 /**
- *@callback TimeFunction
- *@param {number} time
- *@returns {number} value 
-*/
-
-/**
  * @function
  * Draws graph from two coordinate functions
  * @param {TimeFunction} funcX
@@ -13,4 +7,10 @@
 function draw(funcX, funcY) {
     //TODO
 }
-
+/**
+ *callback representing physical dependency
+ *@callback TimeFunction
+ *@param {number} time
+ *@returns {number} coordinate
+*/ 
+//# sourceMappingURL=app.js.map
