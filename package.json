@@ -1,6 +1,9 @@
 {
   "name": "express",
   "version": "0.0.1",
+  "dependencies": {
+    “svg.js”: "^2.6.3”
+  },
   "description": "Ballistics Calculation",
   "main": "app.js",
   "scripts": {
