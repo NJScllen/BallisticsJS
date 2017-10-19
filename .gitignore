@@ -5,6 +5,9 @@
 *.sln
 *.njsproj
 
+# Nodejs packages
+node_modules/
+
 # User-specific files
 *.suo
 *.user
