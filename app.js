@@ -1,16 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * @function
  * Draws graph from two coordinate functions
+ * @function draw
  * @param {TimeFunction} funcX
  * @param {TimeFunction} funcY
+ * @param {svg.Doc} canvas to draw on
  */
-function draw(funcX, funcY) {
+function draw(funcX, funcY, canvas) {
     //TODO
+    return canvas;
 }
-/**
- *callback representing physical dependency
- *@callback TimeFunction
- *@param {number} time
- *@returns {number} coordinate
-*/ 
 //# sourceMappingURL=app.js.map

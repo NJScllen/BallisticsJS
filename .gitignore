@@ -5,6 +5,10 @@
 *.sln
 *.njsproj
 
+#TypeScript files
+*.ts
+tsconfig.json
+
 # Nodejs packages
 node_modules/
 
@@ -28,6 +32,7 @@ node_modules/
 bld/
 [Bb]in/
 [Oo]bj/
+[Oo]ut/
 
 # Visual Studio 2015 cache/options directory
 .vs/
