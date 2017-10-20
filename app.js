@@ -5,10 +5,10 @@ var graphUtils = require("./graphUtils");
 /**
  * Draws graph from two coordinate functions
  * @function draw
- * @param {TimeFunction} funcX
- * @param {TimeFunction} funcY
- * @param {svg.Doc} canvas to draw on
- * @param {number} fields
+ * @param {TimeFunction} funcX function, providing x coordinate
+ * @param {TimeFunction} funcY function, providing y coordinate
+ * @param {svgjs.Doc} canvas canvas to draw on
+ * @param {number} fields fields around the canvas
  */
 function draw(funcX, funcY, canvas, fields) {
     if (fields === void 0) { fields = 10; }
