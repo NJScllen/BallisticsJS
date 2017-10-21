@@ -2,6 +2,7 @@
   "name": "express",
   "version": "0.0.1",
   "dependencies": {
+    "@types/snapsvg": "^0.4.29",
     "snapsvg": "^0.5.1"
   },
   "description": "Ballistics Calculation",
@@ -18,5 +19,6 @@
   "bugs": {
     "url": "https://github.com/NJScllen/BallisticsNJS/issues"
   },
-  "homepage": "https://github.com/NJScllen/BallisticsNJS#readme"
+  "homepage": "https://github.com/NJScllen/BallisticsNJS#readme",
+  "devDependencies": {}
 }
