@@ -5,10 +5,6 @@
 *.sln
 *.njsproj
 
-#TypeScript files
-*.ts
-tsconfig.json
-
 # Nodejs packages
 node_modules/
 
