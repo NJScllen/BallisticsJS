@@ -52,10 +52,10 @@ type Dependency = (arg: number) => number
         let pathAttrs: object = {
             "stroke-width": 1,
             "stroke": "#5389e0"
-        };                
+        };
         let scale: number = (Math.max(impoints.highest.y, impoints.end.x) + (fields * 2))
-                            /
-                            (paperSize.width - (fields * 2));
+            /
+            (paperSize.width - (fields * 2));
         let points: Point[] = [];
         let c = (impoints.end.x - impoints.start.x) / 10; //Chart will be constructed via 13 points
 
@@ -66,7 +66,7 @@ type Dependency = (arg: number) => number
         }
         points.push(impoints.end);
 
-        if (!points.some( (p) => p.x === impoints.highest.x && p.y === impoints.highest.y )) {
+        if (!points.some((p) => p.x === impoints.highest.x && p.y === impoints.highest.y)) {
             points.push(impoints.highest);
             points = points.sort((a, b) => {
                 if (a.x > b.x) return 1;
@@ -74,9 +74,12 @@ type Dependency = (arg: number) => number
                 return 0;
             });
         }
-            
+
         let pathString = `M ${fields} ${fields} R `;
-        points.forEach((p) => pathString = pathString.concat(`${p.x * scale} ${p.y * scale} `));
+        points.forEach((p) => {
+            pathString = pathString.concat(`${(p.x * scale) + fields} ${paperSize.height - (p.y * scale) - fields} `);
+        });
+    
         let path: any = paper.path(pathString).attr(pathAttrs);
         path.scale = scale;
         return path as ChartElement;

@@ -38,7 +38,9 @@
             });
         }
         let pathString = `M ${fields} ${fields} R `;
-        points.forEach((p) => pathString = pathString.concat(`${p.x * scale} ${p.y * scale} `));
+        points.forEach((p) => {
+            pathString = pathString.concat(`${(p.x * scale) + fields} ${paperSize.height - (p.y * scale) - fields} `);
+        });
         let path = paper.path(pathString).attr(pathAttrs);
         path.scale = scale;
         return path;
@@ -49,8 +51,8 @@
      * @param {Snap.Paper}  canvas  canvas to draw on
      * @param {Size}        size    size of the canvas
      * @param {number}      scale   scale of a single segment
-     * @param {?AxisLabels}  labels  labels to write under the axis
-     * @param {?number}      fields  fields around the canvas
+     * @param {AxisLabels}  labels  labels to write under the axis
+     * @param {number}      fields  fields around the canvas
      *
      * @returns {Axis}  axis object, containing both axis
      */
