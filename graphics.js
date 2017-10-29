@@ -13,12 +13,13 @@
      */
     graphics.drawChart = function (dep, impoints, paper, paperSize, fields = 10) {
         let pathAttrs = {
-            "stroke-width": 1,
-            "stroke": "#5389e0"
+            "stroke-width": 3,
+            "stroke": "#5389e0",
+            "fill": "#FFF"
         };
-        let scale = (Math.max(impoints.highest.y, impoints.end.x) + (fields * 2))
+        let scale = Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 2))
             /
-                (paperSize.width - (fields * 2));
+                (Math.max(impoints.highest.y, impoints.end.x) + (fields * 2)));
         let points = [];
         let c = (impoints.end.x - impoints.start.x) / 10; //Chart will be constructed via 13 points
         points.push(impoints.start);
@@ -37,7 +38,7 @@
                 return 0;
             });
         }
-        let pathString = `M ${fields} ${fields} R `;
+        let pathString = `M ${impoints.start.x * scale + fields} ${paperSize.height - (impoints.start.y * scale + fields)} R `;
         points.forEach((p) => {
             pathString = pathString.concat(`${(p.x * scale) + fields} ${paperSize.height - (p.y * scale) - fields} `);
         });
@@ -57,17 +58,22 @@
      * @returns {Axis}  axis object, containing both axis
      */
     graphics.drawAxis = function (canvas, size, scale, labels = { x: "", y: "" }, fields = 10) {
+        const INDENT = 5;
+        const ARROW_HEIGHT = 6;
+        const ARROW_WIDTH = 4;
         let axisparams = {
-            "stroke-width": "2",
+            "stroke-width": "3",
             "stroke": "#000",
             "stroke-opacity": "0.7"
         };
-        let x = canvas.line(fields - 2, size.height - fields, size.width - fields, size.height - fields).attr(axisparams);
-        let y = canvas.line(fields, fields - 2, fields, fields).attr(axisparams);
-        let xa = canvas.polyline([size.width - fields - 3, size.height - fields - 2,
+        let x = canvas.line(fields - INDENT, size.height - fields, size.width - fields, size.height - fields).attr(axisparams);
+        let y = canvas.line(fields, size.height - fields + INDENT, fields, fields).attr(axisparams);
+        let xa = canvas.polyline([size.width - fields - ARROW_HEIGHT, size.height - fields - ARROW_WIDTH,
             size.width - fields, size.height - fields,
-            size.width - fields - 3, size.height - fields + 2]).attr(axisparams);
-        let ya = canvas.polyline([fields - 2, fields + 3, fields, fields, fields + 2, fields + 3]).attr(axisparams);
+            size.width - fields - ARROW_HEIGHT, size.height - fields + ARROW_WIDTH]).attr(axisparams);
+        let ya = canvas.polyline([fields - ARROW_WIDTH, fields + ARROW_HEIGHT,
+            fields, fields, fields + ARROW_WIDTH,
+            fields + ARROW_HEIGHT]).attr(axisparams);
         return { axisX: x, axisY: y, arrowX: xa, arrowY: ya };
     };
     /**
