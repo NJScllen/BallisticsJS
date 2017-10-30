@@ -7,11 +7,22 @@ interface Size {
     height: number;
 }
 
+interface PointLines {
+    lineX: Snap.Element;
+    lineY: Snap.Element;
+    textX: Snap.Element;
+    textY: Snap.Element;
+}
+
 interface Axis {
     axisX: Snap.Element;
     axisY: Snap.Element;
-    arrowX?: Snap.Element;
-    arrowY?: Snap.Element;
+    arrowX: Snap.Element;
+    arrowY: Snap.Element;
+    textX: Snap.Element;
+    textY: Snap.Element;
+    scaleLabelX: Snap.Element;
+    scaleLabelY: Snap.Element;
 }
 
 interface AxisLabels {
@@ -33,7 +44,37 @@ interface ImportantPoints {
 type Dependency = (arg: number) => number
 
 (function () {
-    var graphics : any = {};
+    var graphics: any = {};
+
+    /**
+     * Draws markers showing coordinates of the specific point
+     * @function drawScale
+     * @param {Snap.Paper}  canvas canvas to draw on
+     * @param {Size}        paperSize size of the canvas
+     * @param {Point}       point point which needs to be marked
+     * @param {number}      scale scale of the chart
+     * @param {number}      fields fields around the canvas
+     *
+     * @returns {Axis} axis object, containing lines to both axis
+     */
+    graphics.drawScale = function (paper: Snap.Paper, paperSize: Size, point: Point, scale: number, fields: number = 20): PointLines {
+        let lineparams: object = {
+            "stroke": "#afafaf",
+            "stroke-dasharray": "5,5"
+        }
+        let textparams: object = {
+            "font-family": "Segoe UI",
+            "fill": "#afafaf"
+        }
+        const INDENT = 5;
+        const TEXT_INDENT = 3;
+
+        let x = paper.line(fields, paperSize.height - (point.y * scale + fields), point.x * scale + fields, paperSize.height - (point.y * scale + fields)).attr(lineparams);
+        let y = paper.line(fields + point.x * scale, paperSize.height - fields, fields + point.x * scale, paperSize.height - (point.y * scale + fields)).attr(lineparams);
+        let yt = paper.text(fields - INDENT * 3, paperSize.height - (scale * point.y + fields - TEXT_INDENT), point.y.toString()).attr(textparams);
+        let xt = paper.text(fields + point.x * scale - TEXT_INDENT, paperSize.height - (fields - INDENT*3), point.x.toString()).attr(textparams);
+        return { lineX: x, lineY: y, textX: xt, textY: yt };
+    };
 
     /**
      * Draws chart from two coordinate functions.
@@ -43,20 +84,22 @@ type Dependency = (arg: number) => number
      * @param {Snap.Paper}      canvas canvas to draw on
      * @param {graphUtils.Size} paperSize size of the canvas
      * @param {?number}         fields fields around the canvas
-     *
+     * @param {?number}			scale scale in pixels to use in chart
+	 *
      * @returns {Snap.Element} drawn path
      */
     graphics.drawChart = function (dep: Dependency, impoints: ImportantPoints,
-        paper: Snap.Paper, paperSize: Size, fields: number = 10): ChartElement {
+        paper: Snap.Paper, paperSize: Size, fields: number = 20, scale?: number): ChartElement {
 
         let pathAttrs: object = {
             "stroke-width": 3,
             "stroke": "#5389e0",
             "fill": "#FFF"
         };
-        let scale: number = Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 2))
-                            /
-                            (Math.max(impoints.highest.y, impoints.end.x) + (fields * 2)));
+        scale = scale | Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 2))
+                        /
+                        (Math.max(impoints.highest.y, impoints.end.x) + (fields * 2)));
+
         let points: Point[] = [];
         let c = (impoints.end.x - impoints.start.x) / 10; //Chart will be constructed via 13 points
 
@@ -98,17 +141,24 @@ type Dependency = (arg: number) => number
      * @returns {Axis}  axis object, containing both axis
      */
     graphics.drawAxis = function (canvas: Snap.Paper, size: Size, scale: number,
-        labels: AxisLabels = {x: "", y: ""}, fields: number = 10): Axis {
+        labels: AxisLabels = {x: "", y: ""}, fields: number = 20): Axis {
 
         const INDENT = 5;
+        const TEXT_INDENT = 4;
         const ARROW_HEIGHT = 6;
         const ARROW_WIDTH = 4;
         let axisparams: object = {
             "stroke-width": "3",
             "stroke": "#000",
-            "stroke-opacity": "0.7"
         }
-        
+        let labelsparams: object = {
+            "font-family": "Segoe UI"
+        };
+        let scaleparams: object = {
+            "stroke-width": "2",
+            "stroke": "#afafaf"
+        }
+
         let x = canvas.line(fields - INDENT, size.height - fields, size.width - fields, size.height - fields).attr(axisparams);
         let y = canvas.line(fields, size.height - fields + INDENT, fields, fields).attr(axisparams);
         let xa = canvas.polyline([size.width - fields - ARROW_HEIGHT, size.height - fields - ARROW_WIDTH,
@@ -117,23 +167,12 @@ type Dependency = (arg: number) => number
         let ya = canvas.polyline([fields - ARROW_WIDTH, fields + ARROW_HEIGHT,
                                   fields, fields, fields + ARROW_WIDTH,
                                   fields + ARROW_HEIGHT]).attr(axisparams);
-
-        return { axisX: x, axisY: y, arrowX: xa, arrowY: ya };
-    };
-
-    /**
-     * Draws markers showing coordinates of the specific point
-     * @function drawScale
-     * @param {Snap.Paper}  canvas canvas to draw on
-     * @param {Point}       point point which needs to be marked
-     * @param {number}      fields fields around the canvas
-     *
-     * @returns {Axis} axis object, containing lines to both axis
-     */
-    graphics.drawScale = function (canvas: Snap.Paper, point: Point, fields: number = 10): Axis {
-        //TODO
-
-        throw new Error("Not implemented");
+        let xt = canvas.text(size.width - fields - TEXT_INDENT, size.height - fields + INDENT*3, labels.x).attr(labelsparams);
+        let yt = canvas.text(fields - INDENT * 3, fields + TEXT_INDENT, labels.y).attr(labelsparams);
+        let xl = canvas.line(fields + scale, size.height - (fields - INDENT), fields + scale, size.height - (fields + INDENT)).attr(scaleparams);
+        let yl = canvas.line(fields - INDENT, size.height - (fields + scale), fields + INDENT, size.height - (fields + scale)).attr(scaleparams);
+        
+        return { axisX: x, axisY: y, arrowX: xa, arrowY: ya, textX: xt, textY: yt, scaleLabelX: xl, scaleLabelY: yl};
     };
 
     (window as any).graphics = graphics;
