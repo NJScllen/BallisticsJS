@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <link rel="stylesheet" href="styles/radio.css">
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/palette.css">
-<link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/main.css">
+
+  <title>Ballistics JS</title>
 
   <!--Libraries-->
   <script type="text/javascript" src="libraries/snap.svg-min.js"></script>
-
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <!--Modules-->
   <script type="text/javascript" src="graphics.js"></script>   
+  <!--App-->
+  <script type="text/javascript" src="app.js"></script>
+  <script type="text/javascript" src="test/testing.js"></script>
+
 </head>
 <body>
   <main class="base">
   
     <header class="default-primary-color">
-      <h1>Ballistics JS</h1> 
-      <a href="https://github.com/NJScllen/BallisticsJS">
+	  <a class="no-underline" href="index.html">
+		<h1>Ballistics JS</h1> 
+	  </a>
+      <a href="https://github.com/NJScllen/BallisticsJS" target="_blank">
         <svg aria-hidden="true" id="header-icon" height="32" version="1.1" viewBox="0 0 16 16" width="32">
           <path fill="#4CAF50" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z">
           </path>
@@ -37,6 +47,22 @@
       <section class="base" id="right-section">
         <div class="wrap">
           <ul>
+            <li class="chart-desc">
+              <div class="radio-hold">
+                <div class="md-radio">
+                  <input id="rb0_0" type="radio" name="gr0" checked>
+                  <label for="rb0_0">F = 0</label>
+                </div>
+                <div class="md-radio">
+                  <input id="rb0_1" type="radio" name="gr0">
+                  <label for="rb0_1">F ~ v</label>
+                </div>
+                <div class="md-radio">
+                  <input id="rb0_2" type="radio" name="gr0">
+                  <label for="rb0_2">F ~ v<sup>2</sup></label>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
         <div class="btn-hold">
@@ -52,7 +78,4 @@
     </footer>
     
  </main>
-  <!--App-->
-  <script type="text/javascript" src="app.js"></script>
-  <script type="text/javascript" src="test/testing.js"></script>
 </body>

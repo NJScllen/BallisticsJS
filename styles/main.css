@@ -1,11 +1,15 @@
-@charset "utf-8";
-
-*, *:before, *:after {
+﻿*, *:before, *:after {
    box-sizing: border-box;   
+}
+
+sup { 
+    vertical-align: super;
+    font-size: smaller;
 }
 
 body {
   background-color: #edeef0; 
+  font-family: "Roboto", sans-serif;
 }
 
 main {
@@ -28,6 +32,10 @@ header {
   padding: 30px 20px;
 }
 
+.no-underline {
+	text-decoration: none;
+}
+
 footer {
   padding: 5px 20px;
   text-align: center;
@@ -46,11 +54,16 @@ small {
 }
 
 h1 {
-  font-family: Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: "Roboto",Helvetica Neue,Helvetica,Arial,sans-serif;
   font-weight: 300;
   font-size: 36px;
   color: #fff;
   display: inline;
+  
+  -webkit-user-select: none; /* Safari */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
 }
 
 #header-icon {
@@ -91,8 +104,7 @@ section {
 .btn-hold {
   order: 1;
   text-align: center;
-  padding: 7px 0; 
-  /*border-top-color: #c8c8c8; */
+  padding: 7px 0;
   background-image: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(209,209,209,1) 50%, rgba(254,254,254,1) 100%); 
   background-size: 100% 1px;
   background-repeat: no-repeat;  
@@ -106,14 +118,40 @@ section {
   text-align: center;  
   padding: 10px;
   
+  -webkit-user-select: none; /* Safari */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
+  
   cursor: pointer;
   color: #fff;
-  font-family: "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+  font-family: "Roboto", "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
   text-transform: uppercase;
   letter-spacing: .1em;
-  font-weight: 400;
+  font-weight: normal;
+}
+
+.btn:hover {
+  background: #71c174; 
+  transition: all .1s ease-in;
+}
+
+.btn:active {
+  background: #3e8e41;
+  transition: none;  
 }
 
 #right-section {
   width: 40%;
+}
+
+li.chart-desc {
+  display: block;
+  border-bottom: 1px #BDBDBD solid;
+  padding: 6px 10px;
+}
+
+.radio-hold {
+  display: inline-block;
+  width: 110px;
 }

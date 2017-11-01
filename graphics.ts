@@ -71,8 +71,8 @@ type Dependency = (arg: number) => number
 
         let x = paper.line(fields, paperSize.height - (point.y * scale + fields), point.x * scale + fields, paperSize.height - (point.y * scale + fields)).attr(lineparams);
         let y = paper.line(fields + point.x * scale, paperSize.height - fields, fields + point.x * scale, paperSize.height - (point.y * scale + fields)).attr(lineparams);
-        let yt = paper.text(fields - INDENT * 3, paperSize.height - (scale * point.y + fields - TEXT_INDENT), point.y.toString()).attr(textparams);
-        let xt = paper.text(fields + point.x * scale - TEXT_INDENT, paperSize.height - (fields - INDENT*3), point.x.toString()).attr(textparams);
+        let yt = paper.text(fields - INDENT * (point.y.toString().length + 3), paperSize.height - (scale * point.y + fields - TEXT_INDENT), point.y.toString()).attr(textparams);
+        let xt = paper.text(fields + point.x * scale - TEXT_INDENT * 2, paperSize.height - (fields - INDENT*3), point.x.toString()).attr(textparams);
         return { lineX: x, lineY: y, textX: xt, textY: yt };
     };
 
@@ -96,9 +96,9 @@ type Dependency = (arg: number) => number
             "stroke": "#5389e0",
             "fill": "#FFF"
         };
-        scale = scale | Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 2))
+        scale = scale | Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 3))
                         /
-                        (Math.max(impoints.highest.y, impoints.end.x) + (fields * 2)));
+                        (Math.max(impoints.highest.y, impoints.end.x)));
 
         let points: Point[] = [];
         let c = (impoints.end.x - impoints.start.x) / 10; //Chart will be constructed via 13 points
@@ -123,7 +123,7 @@ type Dependency = (arg: number) => number
         points.forEach((p) => {
             pathString = pathString.concat(`${(p.x * scale) + fields} ${paperSize.height - (p.y * scale) - fields} `);
         });
-    
+        
         let path: any = paper.path(pathString).attr(pathAttrs);
         path.scale = scale;
         return path as ChartElement;
