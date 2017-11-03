@@ -3,8 +3,13 @@
 }
 
 sup { 
-    vertical-align: super;
-    font-size: smaller;
+  vertical-align: super;
+  font-size: smaller;
+}
+
+sub { 
+  vertical-align: sub;
+  font-size: smaller;
 }
 
 body {
@@ -145,13 +150,53 @@ section {
   width: 40%;
 }
 
+ul {
+  overflow: auto;  
+}
+
 li.chart-desc {
-  display: block;
+  display: flex;
+  justify-content: space-between;  
   border-bottom: 1px #BDBDBD solid;
   padding: 6px 10px;
+  overflow: auto;
 }
 
 .radio-hold {
   display: inline-block;
-  width: 110px;
+  min-width: 110px;
+}
+
+.textbox-hold {
+  display: flex;
+  width: 100%;
+} 
+
+/*tbody {
+  margin: auto auto;    
+}
+
+input[type=text] {
+  display: inline-block;
+  width: 45px;
+}*/
+
+.color-hold {
+  display: inline-block;
+  padding: 5px;
+  vertical-align:central;
+}
+
+.color-box {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px dashed #BDBDBD;
+}
+
+.color-show {
+  display: inline-block;
+  background: blue; 
+  width: 100%;
+  height: 100%; 
 }

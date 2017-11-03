@@ -1,9 +1,9 @@
 $(document).ready(function(e) {
-  let d = (x) => x;
+  let d = (x) => x^2;
   let p = {
       start: { x: 0, y: 0},
-      highest: { x: 9, y: 9},
-      end: {x: 9, y: 9}
+      highest: { x: 9, y: 11},
+      end: {x: 10, y: 8}
   };
   let canvas = $("#canvas");
   let paper = Snap("#canvas");

@@ -93,7 +93,7 @@ type Dependency = (arg: number) => number
 
         let pathAttrs: object = {
             "stroke-width": 3,
-            "stroke": "#5389e0",
+            "stroke": "blue",
             "fill": "#FFF"
         };
         scale = scale | Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 3))

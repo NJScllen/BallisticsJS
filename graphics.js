@@ -43,7 +43,7 @@
     graphics.drawChart = function (dep, impoints, paper, paperSize, fields = 20, scale) {
         let pathAttrs = {
             "stroke-width": 3,
-            "stroke": "#5389e0",
+            "stroke": "blue",
             "fill": "#FFF"
         };
         scale = scale | Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 3))
