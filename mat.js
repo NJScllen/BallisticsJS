@@ -9,7 +9,7 @@ var m = <?>; //TODO add input
 var k = <?>; //TODO and input
 var eul = Math.E;
 
-/*
+/* TODO remove
 function xot( t ) {
 	return t * vo * Math.cos(alpha);
 }
