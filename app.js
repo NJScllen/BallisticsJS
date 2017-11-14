@@ -105,10 +105,10 @@ class Chart {
             this.draw();
     }
     draw() {
-        this.erase();
+        if (!!this._chart)
+            this.erase();
         let dep = mat.getYox(this.type, Chart.gravAcc, this._velocity, this._angle, this._coefficent, this._mass);
         let imp = mat.getImp(this.type, Chart.gravAcc, this._velocity, this._angle, this._coefficent, this._mass);
-        //TODO: make color generating
         if (!this._color)
             this._color = Chart.getRandomColor();
         if (!Chart.scale) {
