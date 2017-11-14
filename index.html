@@ -10,12 +10,12 @@
 
   <!--Libraries-->
   <script type="text/javascript" src="libraries/snap.svg-min.js"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <!--Modules-->
   <script type="text/javascript" src="graphics.js"></script>   
+  <script type="text/javascript" src="mat.js"></script>
   <!--App-->
   <script type="text/javascript" src="app.js"></script>
-  <script type="text/javascript" src="test/testing.js"></script>
 
 </head>
 <body>
@@ -39,60 +39,66 @@
           <svg id="canvas"></svg>
         </div>
         <div class="btn-hold">
-            <div class="btn accent-color" id="btn-export">
+            <div class="btn accent-color disabled" id="btn-export">
               export
             </div>
         </div>
       </section>
       <section class="base" id="right-section">
-        <div class="wrap">
-          <ul>
-            <li class="chart-desc">
+        <div class="wrap" style="overflow: auto;">
+          <ul id="chart-list">
+            <li class="chart-desc" id="desc-0">
               <div class="radio-hold">
                 <div class="md-radio">
-                  <input id="rb_0_0" type="radio" name="gr0" checked>
-                  <label for="rb_0_0">F = 0</label>
+                  <input id="rb-0-0" type="radio" name="gr-0" checked>
+                  <label for="rb-0-0">F = 0</label>
                 </div>
                 <div class="md-radio">
-                  <input id="rb_0_1" type="radio" name="gr0">
-                  <label for="rb_0_1">F ~ v</label>
+                  <input id="rb-0-1" type="radio" name="gr-0">
+                  <label for="rb-0-1">F ~ v</label>
                 </div>
                 <div class="md-radio">
-                  <input id="rb_0_2" type="radio" name="gr0">
-                  <label for="rb_0_2">F ~ v<sup>2</sup></label>
+                  <input id="rb-0-2" type="radio" name="gr-0">
+                  <label for="rb-0-2">F ~ v<sup>2</sup></label>
                 </div>
               </div>
-              <!--<table class="textbox-hold">
-              <tbody>
-                <tr>
-                  <td class="input-box">
-                    <label for="tb_0_0">v</label>  
-                    <input type="text" id="tb_0_0" name="tb0">
-                  </td>
-                  <td class="input-box">
-                    <label for="tb_0_1">α</label>  
-                    <input type="text" id="tb_0_1" name="tb0">
-                  </td>
-                </tr>
-                <tr>
-                  <td class="input-box">
-                    <label for="tb_0_2">k</label>  
-                    <input type="text" id="tb_0_2" name="tb0">                
-                  </td>
-                  <td class="input-box">
-                    <label for="tb_0_3">y<sub>0</sub></label>  
-                    <input type="text" id="tb_0_3" name="tb0">                
-                  </td>
-                </tr>
-              </tbody>  
-              </table>-->
+              <div class="textbox-hold">
+                <div class="input-row">
+                  <div class="input-box">
+                    <label for="tb-0-0">v</label>  
+                    <input type="number" class="tb-0" id="tb-0-0" name="tb-0">
+                  </div>
+                  <div class="input-box">
+                    <label for="tb-0-1">&alpha;</label>  
+                    <input type="number" class="tb-1" id="tb-0-1" name="tb-0">
+                  </div>
+                  <div class="input-box">
+                    <label for="tb-0-2">m</label>  
+                    <input type="number" class="tb-2" id="tb-0-2" name="tb-0"> 
+                  </div>
+                </div>
+                <div class="input-row">
+                  <div class="input-box">
+                    <label for="tb-0-3">k</label>  
+                    <input type="number" class="tb-3" id="tb-0-3" name="tb-0">
+                  </div>
+                  <div class="input-box">
+                    <label for="tb-0-4">y<sub>0</sub></label>
+                    <input type="number" class="tb-4" id="tb-0-4" name="tb-0">
+                  </div>
+                </div>
+              </div>
               <div class="color-hold">
                 <div class="color-box">
                   <div class="color-show"></div>
                 </div>
+                <div class="btn btn-delete" id="btn-delete-0"></div>
               </div>
             </li>
           </ul>
+          <div class="btn accent-color" id="btn-add">
+            add
+          </div>
         </div>
         <div class="btn-hold">
           <div class="btn accent-color" id="btn-draw">

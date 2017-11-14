@@ -1,50 +1,48 @@
-﻿interface ChartElement extends Snap.Element {
-    scale: number;
-}
+﻿namespace graphics {
+    export interface ChartElement extends Snap.Element {
+        scale: number;
+    }
 
-interface Size {
-    width: number;
-    height: number;
-}
+    export interface Size {
+        width: number;
+        height: number;
+    }
 
-interface PointLines {
-    lineX: Snap.Element;
-    lineY: Snap.Element;
-    textX: Snap.Element;
-    textY: Snap.Element;
-}
+    export interface PointLines {
+        lineX: Snap.Element;
+        lineY: Snap.Element;
+        textX: Snap.Element;
+        textY: Snap.Element;
+    }
 
-interface Axis {
-    axisX: Snap.Element;
-    axisY: Snap.Element;
-    arrowX: Snap.Element;
-    arrowY: Snap.Element;
-    textX: Snap.Element;
-    textY: Snap.Element;
-    scaleLabelX: Snap.Element;
-    scaleLabelY: Snap.Element;
-}
+    export interface Axis {
+        axisX: Snap.Element;
+        axisY: Snap.Element;
+        arrowX: Snap.Element;
+        arrowY: Snap.Element;
+        textX: Snap.Element;
+        textY: Snap.Element;
+        scaleLabelX: Snap.Element;
+        scaleLabelY: Snap.Element;
+    }
 
-interface AxisLabels {
-    x: string;
-    y: string;
-}
+    export interface AxisLabels {
+        x: string;
+        y: string;
+    }
 
-interface Point {
-    x: number;
-    y: number;
-}
+    export interface Point {
+        x: number;
+        y: number;
+    }
 
-interface ImportantPoints {
-    start: Point;
-    highest: Point;
-    end: Point;
-}
+    export interface ImportantPoints {
+        start: Point;
+        highest: Point;
+        end: Point;
+    }
 
-type Dependency = (arg: number) => number
-
-(function () {
-    var graphics: any = {};
+    export type Dependency = (arg: number) => number;
 
     /**
      * Draws markers showing coordinates of the specific point
@@ -57,7 +55,7 @@ type Dependency = (arg: number) => number
      *
      * @returns {Axis} axis object, containing lines to both axis
      */
-    graphics.drawScale = function (paper: Snap.Paper, paperSize: Size, point: Point, scale: number, fields: number = 20): PointLines {
+    export function drawScale(paper: Snap.Paper, paperSize: Size, point: Point, scale: number, fields: number = 20): PointLines {
         let lineparams: object = {
             "stroke": "#afafaf",
             "stroke-dasharray": "5,5"
@@ -88,7 +86,7 @@ type Dependency = (arg: number) => number
 	 *
      * @returns {Snap.Element} drawn path
      */
-    graphics.drawChart = function (dep: Dependency, impoints: ImportantPoints,
+    export function drawChart(dep: Dependency, impoints: ImportantPoints,
         paper: Snap.Paper, paperSize: Size, fields: number = 20, scale?: number): ChartElement {
 
         let pathAttrs: object = {
@@ -140,7 +138,7 @@ type Dependency = (arg: number) => number
      *
      * @returns {Axis}  axis object, containing both axis
      */
-    graphics.drawAxis = function (canvas: Snap.Paper, size: Size, scale: number,
+    export function drawAxis(canvas: Snap.Paper, size: Size, scale: number,
         labels: AxisLabels = {x: "", y: ""}, fields: number = 20): Axis {
 
         const INDENT = 5;
@@ -174,6 +172,4 @@ type Dependency = (arg: number) => number
         
         return { axisX: x, axisY: y, arrowX: xa, arrowY: ya, textX: xt, textY: yt, scaleLabelX: xl, scaleLabelY: yl};
     };
-
-    (window as any).graphics = graphics;
-})();
+};

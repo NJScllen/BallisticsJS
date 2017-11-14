@@ -55,6 +55,7 @@ small {
 .base {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.16), 0 0 2px 0 rgba(0,0,0,.12);
+  -moz-box-shadow: 0 2px 2px 0 rgba(0,0,0,.16), 0 0 2px 0 rgba(0,0,0,.12);
   box-shadow: 0 2px 2px 0 rgba(0,0,0,.16), 0 0 2px 0 rgba(0,0,0,.12);
 }
 
@@ -146,12 +147,22 @@ section {
   transition: none;  
 }
 
-#right-section {
-  width: 40%;
+.disabled {
+   cursor: default;
+   background: #8e908c;
 }
 
-ul {
-  overflow: auto;  
+.disabled:hover {
+   background: #8e908c;
+   transition: none;
+}
+
+.disabled:active {
+   background: #8e908c;
+}
+
+#right-section {
+  width: 40%;
 }
 
 li.chart-desc {
@@ -165,24 +176,42 @@ li.chart-desc {
 .radio-hold {
   display: inline-block;
   min-width: 110px;
+  width: 110px;
+}
+
+.md-radio label {
+    -webkit-user-select: none; /* Safari */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
 }
 
 .textbox-hold {
-  display: flex;
   width: 100%;
 } 
 
-/*tbody {
-  margin: auto auto;    
+.input-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  min-width: 175px;
+  height: 50%; 
 }
 
-input[type=text] {
-  display: inline-block;
-  width: 45px;
-}*/
+.input-box {
+  min-width: 55px;  
+  max-height: 21px;
+}
+
+input[type="number"] {
+  width: 42px;
+}
 
 .color-hold {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 5px;
   vertical-align:central;
 }
@@ -196,7 +225,25 @@ input[type=text] {
 
 .color-show {
   display: inline-block;
-  background: blue; 
   width: 100%;
   height: 100%; 
+}
+
+.btn-delete {
+  width: 20px;
+  height: 20px;
+  background: url(../backgrounds/delete.png);
+}
+
+.btn-delete:hover {
+  background: url(../backgrounds/delete-hover.png);  
+}
+
+.btn-delete:active {
+  background: url(../backgrounds/delete-active.png);
+}
+
+#btn-add {
+  margin-top: 15px;
+  margin-left: 15px;
 }

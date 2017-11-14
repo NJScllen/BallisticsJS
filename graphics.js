@@ -1,5 +1,5 @@
-(function () {
-    var graphics = {};
+var graphics;
+(function (graphics) {
     /**
      * Draws markers showing coordinates of the specific point
      * @function drawScale
@@ -11,7 +11,7 @@
      *
      * @returns {Axis} axis object, containing lines to both axis
      */
-    graphics.drawScale = function (paper, paperSize, point, scale, fields = 20) {
+    function drawScale(paper, paperSize, point, scale, fields = 20) {
         let lineparams = {
             "stroke": "#afafaf",
             "stroke-dasharray": "5,5"
@@ -27,7 +27,9 @@
         let yt = paper.text(fields - INDENT * (point.y.toString().length + 3), paperSize.height - (scale * point.y + fields - TEXT_INDENT), point.y.toString()).attr(textparams);
         let xt = paper.text(fields + point.x * scale - TEXT_INDENT * 2, paperSize.height - (fields - INDENT * 3), point.x.toString()).attr(textparams);
         return { lineX: x, lineY: y, textX: xt, textY: yt };
-    };
+    }
+    graphics.drawScale = drawScale;
+    ;
     /**
      * Draws chart from two coordinate functions.
      * @function drawChart
@@ -40,7 +42,7 @@
      *
      * @returns {Snap.Element} drawn path
      */
-    graphics.drawChart = function (dep, impoints, paper, paperSize, fields = 20, scale) {
+    function drawChart(dep, impoints, paper, paperSize, fields = 20, scale) {
         let pathAttrs = {
             "stroke-width": 3,
             "stroke": "blue",
@@ -74,7 +76,9 @@
         let path = paper.path(pathString).attr(pathAttrs);
         path.scale = scale;
         return path;
-    };
+    }
+    graphics.drawChart = drawChart;
+    ;
     /**
      * Draws two axis on provided canvas.
      * @function drawAxis
@@ -86,7 +90,7 @@
      *
      * @returns {Axis}  axis object, containing both axis
      */
-    graphics.drawAxis = function (canvas, size, scale, labels = { x: "", y: "" }, fields = 20) {
+    function drawAxis(canvas, size, scale, labels = { x: "", y: "" }, fields = 20) {
         const INDENT = 5;
         const TEXT_INDENT = 4;
         const ARROW_HEIGHT = 6;
@@ -115,6 +119,8 @@
         let xl = canvas.line(fields + scale, size.height - (fields - INDENT), fields + scale, size.height - (fields + INDENT)).attr(scaleparams);
         let yl = canvas.line(fields - INDENT, size.height - (fields + scale), fields + INDENT, size.height - (fields + scale)).attr(scaleparams);
         return { axisX: x, axisY: y, arrowX: xa, arrowY: ya, textX: xt, textY: yt, scaleLabelX: xl, scaleLabelY: yl };
-    };
-    window.graphics = graphics;
-})();
+    }
+    graphics.drawAxis = drawAxis;
+    ;
+})(graphics || (graphics = {}));
+;
