@@ -144,8 +144,9 @@ class Chart {
     }
 
     erase(): void {
-        for (var k in Object.keys(this.chart.axis))
-            this.chart.axis[k].remove();
+        if (this.chart.axis)
+            for (var k in Object.keys(this.chart.axis))
+                this.chart.axis[k].remove();
         for (var k in Object.keys(this.chart.lines))
             this.chart.lines[k].remove();
         this.chart.path.remove();

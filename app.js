@@ -11,7 +11,6 @@ var InputOrder;
     InputOrder[InputOrder["mass"] = 2] = "mass";
     InputOrder[InputOrder["coefficent"] = 3] = "coefficent";
     InputOrder[InputOrder["startY"] = 4] = "startY";
-    InputOrder[InputOrder["gravAcc"] = 5] = "gravAcc";
 })(InputOrder || (InputOrder = {}));
 class GraphChart {
     constructor(dep, impoints, paper, paperSize, fields = 20, scale) {
@@ -93,6 +92,14 @@ class Chart {
             velocity: this._velocity
         };
     }
+    static getRandomColor() {
+        const LETTERS = '0123456789ABCDEF';
+        let color = '#';
+        for (var i = 0; i < 6; i++)
+            color += LETTERS[Math.floor(Math.random() * 16)];
+        return color;
+    }
+    ;
     invalidate() {
         if (this.autoInvalidate)
             this.draw();
@@ -101,16 +108,21 @@ class Chart {
         this.erase();
         let dep = mat.getYox(this.type, Chart.gravAcc, this._velocity, this._angle, this._coefficent, this._mass);
         let imp = mat.getImp(this.type, Chart.gravAcc, this._velocity, this._angle, this._coefficent, this._mass);
+        //TODO: make color generating
+        if (!this._color)
+            this._color = Chart.getRandomColor();
         if (!Chart.scale) {
             this._chart = new GraphChart(dep, imp, Chart.paper, Chart.size);
             Chart.scale = this._chart.path.scale;
         }
         else
             this._chart = new GraphChart(dep, imp, Chart.paper, Chart.size, 20, Chart.scale);
+        this._chart.path.attr({ "stroke": this._color });
     }
     erase() {
-        for (var k in Object.keys(this.chart.axis))
-            this.chart.axis[k].remove();
+        if (this.chart.axis)
+            for (var k in Object.keys(this.chart.axis))
+                this.chart.axis[k].remove();
         for (var k in Object.keys(this.chart.lines))
             this.chart.lines[k].remove();
         this.chart.path.remove();
@@ -148,21 +160,29 @@ class ChartGui {
     getParams() {
         let chartTypeId = this.gui.find('.md-radio').find(':checked').attr('id');
         let t = +chartTypeId.slice(chartTypeId.lastIndexOf('-') + 1);
-        let v = +this.gui.find(`#tb-${this.id}-${InputOrder.velocity}`).text();
-        let a = +this.gui.find(`#tb-${this.id}-${InputOrder.angle}`).text();
-        let m = +this.gui.find(`#tb-${this.id}-${InputOrder.mass}`).text();
-        let c = +this.gui.find(`#tb-${this.id}-${InputOrder.coefficent}`).text();
-        let s = +this.gui.find(`#tb-${this.id}-${InputOrder.startY}`).text();
+        let v = +this.gui.find(`#tb-${this.id}-${InputOrder.velocity}`).val();
+        let a = +this.gui.find(`#tb-${this.id}-${InputOrder.angle}`).val();
+        let m = +this.gui.find(`#tb-${this.id}-${InputOrder.mass}`).val();
+        let c = +this.gui.find(`#tb-${this.id}-${InputOrder.coefficent}`).val();
+        let s = +this.gui.find(`#tb-${this.id}-${InputOrder.startY}`).val();
         return { angle: a, chartType: t, coefficent: c, mass: m, startY: s, velocity: v };
     }
 }
 class Manager {
     constructor(list) {
+        this.validated = true;
         this.table = {};
         this.list = list;
     }
     get items() { return this.table; }
     ;
+    generateId() {
+        for (var i = 0; i < 20; i++) {
+            if (!this.table[i])
+                return i;
+        }
+        throw new Error("All id occupied");
+    }
     add(id) {
         if (!id)
             id = this.generateId();
@@ -195,12 +215,15 @@ class Manager {
         for (var id in Object.keys(this.table))
             this.createOrModifyChart(id);
     }
-    generateId() {
-        for (var i = 0; i < 20; i++) {
-            if (!this.table[i])
-                return i;
+    refreshCharts() {
+        for (var id in Object.keys(this.table)) {
+            if (this.table[id].chart) {
+                let ch = this.table[id].chart;
+                ch.draw();
+            }
+            ;
         }
-        throw new Error("All id occupied");
+        ;
     }
 }
 var consts;
@@ -225,18 +248,20 @@ $(document).ready(function () {
     $(consts.DRAW_BTN_ID).click((e) => {
         manager.createOrModifyAll();
     });
-    let rebindDelete = () => $(consts.DELETE_BTN_CLASS).click((e) => {
-        let id = e.target.id.slice(e.target.id.lastIndexOf('-') + 1);
-        manager.remove(id);
-    });
-    rebindDelete();
+    let rebind = () => {
+        $(consts.DELETE_BTN_CLASS).click((e) => {
+            let id = e.target.id.slice(e.target.id.lastIndexOf('-') + 1);
+            manager.remove(id);
+        });
+    };
+    rebind();
     $(consts.ADD_BTN_ID).click((e) => {
         manager.add();
-        rebindDelete();
+        rebind();
     });
     $(document).resize((e) => {
         Chart.scale = 0;
         resizePaper();
-        manager.createOrModifyAll();
+        manager.refreshCharts();
     });
 });
