@@ -1,47 +1,132 @@
 var mat = {};
-var impoints {};
+var impoints {
+	start = {};
+	highest = {};
+	end = {};
+};
 
 let grav = 9,8;
+let eul = Math.E;
 
-var vo = <?>; //TODO add input
-var aplha = <?>; //TODO add input
-var m = <?>; //TODO add input
-var k = <?>; //TODO and input
-var eul = Math.E;
+function getYox (casen, ChartParams){
 
-/* TODO remove
-function xot( t ) {
-	return t * vo * Math.cos(alpha);
-}
-
-function yot( t ) {
-	return t * vo * Math.sin(alpha) - (grav * t * t) * 0,5;
-}
-*/
-
-impoints.staPnt = 0; //TODO make customizable
-
-function yox( x ) {
-	return Math.tan(alpha) * x - ( 0,5 * grav * x * x ) / ( vo * vo * Math.cos(alpha) * Math.cos(alpha) );
-}
-
-function yokm( x ) {
-	var tvar = Math.log( (x - (vo * Math.cos(alpha) * m) / k) / ((vo * Math.cos(alpha) * m) / k) ) * ((-m)/k);
-	return (m/k) * ( ( vo * Math.sin(alpha) + ((m * grav)/k) ) * ( 1 - Math.pow(eul, ((-k)/m)*tvar ) - grav * tvar );
-}
-
-var tmaxSec = ( (-m) * Math.log(1) ) / k;
-
-mat.sendFirst = function(paper, paperSize, fields, scale){
-	impoints.midPnt = vo / grav;
-	impoints.endPnt =  2 * midPnt;
+	var vo = ChartParams.velocity;
+	var aplha = ChartParams.angle; 
+	var m = ChartParams.mass; 
+	var k = ChartParams.coefficent; 
+	var tmaxSec = ( (-m) * Math.log(1) ) / k;
 	
-	graphics.drawChart(yox, impoints, paper, paperSize, fields, scale);
+	switch(casen) {
+	case 0:
+	
+		function yox( x ) {
+			return Math.tan(alpha) * x - ( 0,5 * grav * x * x ) / ( vo * vo * Math.cos(alpha) * Math.cos(alpha) );
+		}
+		
+		return (yox);
+		
+		break;
+		
+    case 1:
+    
+        function yokm( x ) {
+			var tvar = Math.log( (x - (vo * Math.cos(alpha) * m) / k) / ((vo * Math.cos(alpha) * m) / k) ) * ((-m)/k);
+			return (m/k) * ( ( vo * Math.sin(alpha) + ((m * grav)/k) ) * ( 1 - Math.pow(eul, ((-k)/m)*tvar ) - grav * tvar );
+		}
+		
+		return (yokm);
+		
+        break;
+        
+    case 2;
+        
+        function (yor) {
+        	return (x);
+        }
+        
+        return (yor);
+        
+        break;
+        
+    default:
+    
+   		function (yor) {
+        	return (x);
+        }
+        
+        return (yor);
+        
+        break;
+	}
+
 }
 
-mat.sendSecond = function(paper, paperSize, fields, scale){
-	impoints.endPnt = vo * Math.cos(alpha) * m * (1 - Math.pow( eul, ((-k)*tmaxSec)/m )	);
-	impoints.midPnt = impoints.endPnt / 2;
+function getImp (casen, yox, ChartParams) {
+
+	var vo = ChartParams.velocity;
+	var aplha = ChartParams.angle; 
+	var m = ChartParams.mass; 
+	var k = ChartParams.coefficent; 
+	var tmaxSec = ( (-m) * Math.log(1) ) / k;
 	
-	graphics.drawChart(yokm, impoints, paper, paperSize, fields, scale);
+	switch(casen) {
+	case 0:
+	
+		impoints.start.x = 0;
+		impoints.highest.x = vo / grav;
+		impoints.end.x =  2 * midPnt;
+	
+		impoints.start.y = 0;
+		impoints.highest.y = yox(impoints.highest.x);
+		impoints.end.y =  yox(impoints.end.x)
+		
+		return(impoints);
+		
+		break;
+	
+	case 1:
+		
+		impoints.start.x = 0;
+		impoints.highest.x = impoints.endPnt / 2;
+		impoints.end.x = vo * Math.cos(alpha) * m * (1 - Math.pow( eul, ((-k)*tmaxSec)/m )	);
+		
+		impoints.start.y = 0;
+		impoints.highest.y = yox(impoints.highest.x);
+		impoints.end.y =  yox(impoints.end.x)
+		
+		return(impoints);
+		
+		break;
+		
+	case 2:
+		
+		impoints.start.x = 0;
+		impoints.highest.x = 1;
+		impoints.end.x = 2;
+		
+		impoints.start.y = 0;
+		impoints.highest.y = yox(impoints.highest.x);
+		impoints.end.y =  yox(impoints.end.x)
+		
+		return(impoints);
+		
+		break;
+		
+	default: 
+	
+		impoints.start.x = 0;
+		impoints.highest.x = 1;
+		impoints.end.x = 2;
+		
+		impoints.start.y = 0;
+		impoints.highest.y = yox(impoints.highest.x);
+		impoints.end.y =  yox(impoints.end.x)
+		
+		return(impoints);
+		
+	}
+	
 }
+
+mat.getYox = getYox;
+mat.getImp = getImp;
