@@ -14,7 +14,6 @@ function getYox (casen, ChartParams){
 	var alpha = ChartParams.angle / 57.2958; 
 	var m = ChartParams.mass; 
 	var k = ChartParams.coefficent; 
-	var tmaxSec = ( (-m) * Math.log(1) ) / k;
 	
 	switch(casen) {
 	case 0:
@@ -30,7 +29,7 @@ function getYox (casen, ChartParams){
     case 1:
     
         function yokm( x ) {
-			var tvar = Math.log( (x - (vo * Math.cos(alpha) * m) / k) / ((vo * Math.cos(alpha) * m) / k) ) * ((-m)/k);
+			var tvar = Math.log( (x * k)/(- vo * Math.cos(alpha) * m) + 1 ) * ((-m)/k);
 			return (m/k) * ( ( vo * Math.sin(alpha) + ((m * grav)/k) ) * ( 1 - Math.pow(eul, ((-k)/m)*tvar )) - grav * tvar );
 		}
 		
@@ -71,12 +70,12 @@ function getImp (casen, yox, ChartParams) {
 	case 0:
 	
 		impoints.start.x = 0;
-		impoints.highest.x = vo / grav;
-		impoints.end.x =  2 * impoints.highest.x;
+		impoints.end.x = (vo * vo * Math.sin(2*alpha)) / grav;
+		impoints.highest.x = impoints.end.x / 2;
 	
 		impoints.start.y = 0;
-		impoints.highest.y = yox(impoints.highest.x);
-		impoints.end.y =  yox(impoints.end.x);
+		impoints.highest.y = (vo * vo * Math.sin(alpha) * Math.sin(alpha)) / (2 * grav);
+		impoints.end.y =  0;
 		
 		return(impoints);
 		
@@ -85,7 +84,7 @@ function getImp (casen, yox, ChartParams) {
 	case 1:
 		
 		impoints.start.x = 0;
-      impoints.end.x = vo * Math.cos(alpha) * m * (1 - Math.pow( eul, ((-k)*tmaxSec)/m )	);
+      	impoints.end.x = (vo * Math.cos(alpha) * m ) / k;
 		impoints.highest.x = impoints.end.x / 2;
 		
 		impoints.start.y = 0;
