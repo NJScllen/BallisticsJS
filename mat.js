@@ -25,7 +25,7 @@ function getYox (casen, ChartParams){
 	case 0:
 	
 		function yox( x ) {
-			return (x/Math.tan(alpha)) - ( (grav * x * x ) / ( 2*vo * vo * Math.cos(alpha) * Math.cos(alpha) ) );
+			return (x*Math.sin(alpha)/Math.cos(alpha)) - ( (grav * x * x ) / ( 2*vo * vo * Math.cos(alpha) * Math.cos(alpha) ) );
 		}
 		
 		return (yox);
