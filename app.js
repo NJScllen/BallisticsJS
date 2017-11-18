@@ -17,9 +17,9 @@ class GraphChart {
         let t = graphics.drawChart(dep, impoints, paper, paperSize, fields, scale);
         Chart.scale = t.scale;
         this.path = t;
-        if (scale)
-            this.axis = graphics.drawAxis(paper, paperSize, Chart.scale);
-        this.lines = graphics.drawScale(paper, paperSize, impoints.highest, Chart.scale, fields);
+        //if (!scale)
+        this.axis = graphics.drawAxis(paper, paperSize, Chart.scale, { x: 'x', y: 'y' });
+        //this.lines = graphics.drawScale(paper, paperSize, impoints.highest, Chart.scale, fields);
     }
 }
 class Chart {
@@ -107,8 +107,10 @@ class Chart {
     draw() {
         if (!!this._chart)
             this.erase();
-        let dep = mat.getYox(this.type, Chart.gravAcc, this._velocity, this._angle, this._coefficent, this._mass);
-        let imp = mat.getImp(this.type, Chart.gravAcc, this._velocity, this._angle, this._coefficent, this._mass);
+        /*let dep = mat.getYox(this.type, this.parameters);
+        let imp = mat.getImp(this.type, dep, this.parameters);*/
+        let dep = mat.getDependancy(this.parameters);
+        let imp = dep.imppoints;
         if (!this._color)
             this._color = Chart.getRandomColor();
         if (!Chart.scale) {
@@ -120,11 +122,13 @@ class Chart {
         this._chart.path.attr({ "stroke": this._color });
     }
     erase() {
-        if (this.chart.axis)
-            for (var k in Object.keys(this.chart.axis))
-                this.chart.axis[k].remove();
-        for (var k in Object.keys(this.chart.lines))
-            this.chart.lines[k].remove();
+        if (this._chart.axis)
+            Object.getOwnPropertyNames(this._chart.axis).forEach((k, i) => {
+                this._chart.axis[k].remove();
+            });
+        /*Object.getOwnPropertyNames(this._chart.lines).forEach((k, i) => {
+            this._chart.lines[k].remove();
+        })*/
         this.chart.path.remove();
     }
 }
@@ -259,7 +263,7 @@ $(document).ready(function () {
         manager.add();
         rebind();
     });
-    $(document).resize((e) => {
+    $(window).resize((e) => {
         Chart.scale = 0;
         resizePaper();
         manager.refreshCharts();

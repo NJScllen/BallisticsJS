@@ -42,7 +42,11 @@
         end: Point;
     }
 
-    export type Dependency = (arg: number) => number;
+    //export type Dependency = (arg: number) => number;
+    export interface Dependency {
+        (arg: number): number;
+        imppoints?: ImportantPoints;
+    }
 
     /**
      * Draws markers showing coordinates of the specific point
@@ -92,7 +96,8 @@
         let pathAttrs: object = {
             "stroke-width": 3,
             "stroke": "blue",
-            "fill": "#FFF"
+            "fill": "#FFF",
+            "fill-opacity": 0
         };
         scale = scale | Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 3))
                         /

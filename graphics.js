@@ -46,7 +46,8 @@ var graphics;
         let pathAttrs = {
             "stroke-width": 3,
             "stroke": "blue",
-            "fill": "#FFF"
+            "fill": "#FFF",
+            "fill-opacity": 0
         };
         scale = scale | Math.round((Math.min(paperSize.width, paperSize.height) - (fields * 3))
             /
