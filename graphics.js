@@ -24,8 +24,8 @@ var graphics;
         const TEXT_INDENT = 3;
         let x = paper.line(fields, paperSize.height - (point.y * scale + fields), point.x * scale + fields, paperSize.height - (point.y * scale + fields)).attr(lineparams);
         let y = paper.line(fields + point.x * scale, paperSize.height - fields, fields + point.x * scale, paperSize.height - (point.y * scale + fields)).attr(lineparams);
-        let yt = paper.text(fields - INDENT * (point.y.toString().length + 3), paperSize.height - (scale * point.y + fields - TEXT_INDENT), point.y.toString()).attr(textparams);
-        let xt = paper.text(fields + point.x * scale - TEXT_INDENT * 2, paperSize.height - (fields - INDENT * 3), point.x.toString()).attr(textparams);
+        let yt = paper.text(fields - INDENT * (point.y.toString().length + 3), paperSize.height - (scale * point.y + fields - TEXT_INDENT), point.y.toFixed(2)).attr(textparams);
+        let xt = paper.text(fields + point.x * scale - TEXT_INDENT * 2, paperSize.height - (fields - INDENT * 3), point.x.toFixed(2)).attr(textparams);
         return { lineX: x, lineY: y, textX: xt, textY: yt };
     }
     graphics.drawScale = drawScale;
