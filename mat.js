@@ -50,7 +50,7 @@ function getYox (casen, ChartParams){
 		if (vprev == 0) {
 			vprev = vo * Math.cos(alpha);
 		}
-		if (vyrev == 0) {
+		if (vyprev == 0) {
 			vprev = vo * Math.sin(alpha);
 		}
 
@@ -64,8 +64,6 @@ function getYox (casen, ChartParams){
 		return (yprev);
 
         }
-			
-			return (yolly);
         
         break;
           
