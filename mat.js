@@ -65,6 +65,8 @@ function getYox (casen, ChartParams){
 
         }
         
+			return(yolly);
+			
         break;
           
         
