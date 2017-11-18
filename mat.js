@@ -11,7 +11,7 @@ let eul = Math.E;
 function getYox (casen, ChartParams){
 
 	var vo = ChartParams.velocity;
-	var alpha = ChartParams.angle; 
+	var alpha = ChartParams.angle / 57.2958; 
 	var m = ChartParams.mass; 
 	var k = ChartParams.coefficent; 
 	var tmaxSec = ( (-m) * Math.log(1) ) / k;
@@ -20,7 +20,7 @@ function getYox (casen, ChartParams){
 	case 0:
 	
 		function yox( x ) {
-			return Math.tan(alpha) * x - ( 0,5 * grav * x * x ) / ( vo * vo * Math.cos(alpha) * Math.cos(alpha) );
+			return (Math.tan(alpha) * x) - ( ( 0,5 * grav * x * x ) / ( vo * vo * Math.cos(alpha) * Math.cos(alpha) ) );
 		}
 		
 		return (yox);
@@ -62,7 +62,7 @@ function getYox (casen, ChartParams){
 function getImp (casen, yox, ChartParams) {
 
 	var vo = ChartParams.velocity;
-	var alpha = ChartParams.angle; 
+	var alpha = ChartParams.angle / 57.2958; 
 	var m = ChartParams.mass; 
 	var k = ChartParams.coefficent; 
 	var tmaxSec = ( (-m) * Math.log(1) ) / k;
