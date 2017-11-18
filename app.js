@@ -19,7 +19,7 @@ class GraphChart {
         this.path = t;
         //if (!scale)
         this.axis = graphics.drawAxis(paper, paperSize, Chart.scale, { x: 'x', y: 'y' });
-        //this.lines = graphics.drawScale(paper, paperSize, impoints.highest, Chart.scale, fields);
+        this.lines = graphics.drawScale(paper, paperSize, impoints.highest, Chart.scale, fields);
     }
 }
 class Chart {
@@ -107,10 +107,8 @@ class Chart {
     draw() {
         if (!!this._chart)
             this.erase();
-        /*let dep = mat.getYox(this.type, this.parameters);
-        let imp = mat.getImp(this.type, dep, this.parameters);*/
-        let dep = mat.getDependancy(this.parameters);
-        let imp = dep.imppoints;
+        let dep = mat.getYox(this.type, this.parameters);
+        let imp = mat.getImp(this.type, dep, this.parameters);
         if (!this._color)
             this._color = Chart.getRandomColor();
         if (!Chart.scale) {
@@ -126,9 +124,9 @@ class Chart {
             Object.getOwnPropertyNames(this._chart.axis).forEach((k, i) => {
                 this._chart.axis[k].remove();
             });
-        /*Object.getOwnPropertyNames(this._chart.lines).forEach((k, i) => {
+        Object.getOwnPropertyNames(this._chart.lines).forEach((k, i) => {
             this._chart.lines[k].remove();
-        })*/
+        });
         this.chart.path.remove();
     }
 }
