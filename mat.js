@@ -1,28 +1,149 @@
-var mat;
-(function (mat) {
-    const grav = 9.8;
-    function getDependancy(params) {
-        switch (params.chartType) {
-            case 0:
-                {
-                    let dep = (x) => {
-                        let t = x / (params.velocity * Math.cos(params.angle));
-                        return /*params.startY +*/ (params.velocity * Math.sin(params.angle) * t) - (grav * Math.pow(t, 2)) / 2;
-                    };
-                    let tfly = (2 * params.velocity * Math.sin(params.angle)) / (grav);
-                    dep.imppoints = {
-                        start: { x: 0, y: /*params.startY*/ 0 },
-                        end: { x: dep(tfly), y: 0 },
-                        highest: {
-                            x: params.velocity * Math.cos(params.angle) * (tfly / 2),
-                            y: (Math.pow(params.velocity, 2) * Math.pow(Math.sin(params.angle), 2)) / (2 * grav)
-                        }
-                    };
-                    return dep;
-                }
-                ;
-            default: throw new Error("not implemented");
+var mat = {};
+var impoints = {
+  start : {},
+  highest : {},
+  end : {}
+};
+
+var vprev = 0;
+var xprev = 0;
+var vyprev = 0;
+var deltt = 0;
+var yprev = 0;
+
+let grav = 9.8;
+let eul = Math.E;
+
+function getYox (casen, ChartParams){
+
+	var vo = ChartParams.velocity;
+	var alpha = ChartParams.angle / 57.2958; 
+	var m = ChartParams.mass; 
+	var k = ChartParams.coefficent; 
+	
+	switch(casen) {
+	case 0:
+	
+		function yox( x ) {
+			return (Math.tan(alpha) * x) - ( ( 0,5 * grav * x * x ) / ( vo * vo * Math.cos(alpha) * Math.cos(alpha) ) );
+		}
+		
+		return (yox);
+		
+		break;
+		
+    case 1:
+    
+        function yokm( x ) {
+			var tvar = Math.log( (x * k)/(- vo * Math.cos(alpha) * m) + 1 ) * ((-m)/k);
+			return (m/k) * ( ( vo * Math.sin(alpha) + ((m * grav)/k) ) * ( 1 - Math.pow(eul, ((-k)/m)*tvar )) - grav * tvar );
+		}
+		
+		return (yokm);
+		
+        break;
+        
+    case 2:
+        
+        function yolly(x) {
+        
+		if (vprev == 0) {
+			vprev = vo * Math.cos(alpha);
+		}
+		if (vyrev == 0) {
+			vprev = vo * Math.sin(alpha);
+		}
+
+
+		deltt = (x - xprev) / vprev;
+		vprev = vprev - (k/m) * vprev * deltt;
+		xprev = x;
+		vyprev = vyprev - (grav + (k/m) * vyprev) * deltt;
+		yprev = yprev + vyprev*deltt;
+		
+		return (yprev);
+
         }
-    }
-    mat.getDependancy = getDependancy;
-})(mat || (mat = {}));
+        
+        break;
+          
+        
+          default:
+          function yoo(x) {
+        	return (x);
+        }
+        
+        return (yoo);
+	}
+
+}
+
+function getImp (casen, yox, ChartParams) {
+
+	var vo = ChartParams.velocity;
+	var alpha = ChartParams.angle / 57.2958; 
+	var m = ChartParams.mass; 
+	var k = ChartParams.coefficent; 
+	var tmaxSec = ( (-m) * Math.log(1) ) / k;
+	
+	switch(casen) {
+	case 0:
+	
+		impoints.start.x = 0;
+		impoints.end.x = (vo * vo * Math.sin(2*alpha)) / grav;
+		impoints.highest.x = impoints.end.x / 2;
+	
+		impoints.start.y = 0;
+		impoints.highest.y = (vo * vo * Math.sin(alpha) * Math.sin(alpha)) / (2 * grav);
+		impoints.end.y =  0;
+		
+		return(impoints);
+		
+		break;
+	
+	case 1:
+		
+		impoints.start.x = 0;
+      	impoints.end.x = (vo * Math.cos(alpha) * m ) / k;
+		impoints.highest.x = impoints.end.x / 2;
+		
+		impoints.start.y = 0;
+		impoints.highest.y = yox(impoints.highest.x);
+		impoints.end.y =  yox(impoints.end.x);
+		
+		return(impoints);
+		
+		break;
+		
+	case 2:
+		
+		impoints.start.x = 0;
+		impoints.end.x = (vo * Math.cos(alpha) * m ) / k;
+		impoints.highest.x = impoints.end.x / 2;
+		
+		impoints.start.y = 0;
+		impoints.highest.y = yox(impoints.highest.x);
+		impoints.end.y =  yox(impoints.end.x);
+		return(impoints);
+		
+		break;
+		
+	default: 
+	
+		impoints.start.x = 0;
+		impoints.highest.x = 1;
+		impoints.end.x = 2;
+		
+		impoints.start.y = 0;
+		impoints.highest.y = yox(impoints.highest.x);
+		impoints.end.y =  yox(impoints.end.x);
+		
+		return(impoints);
+		
+	}
+	
+}
+
+mat.getYox = getYox;
+mat.getImp = getImp;
+
