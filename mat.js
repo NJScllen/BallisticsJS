@@ -47,7 +47,7 @@ function getYox (casen, ChartParams){
 
     function yollo( x ) {
       var tvar = Math.log( (x * k)/(- vo * Math.cos(alpha) * m) + 1 ) * ((-m)/k);
-			return (10*m/k) * ( ( Math.sqrt(vo) * Math.sin(alpha) + ((m * grav)/k) ) * ( 1 - Math.pow(eul, ((-k)/m)*tvar )) - grav * tvar );
+			return (vo*m/k) * ( ( Math.sqrt(vo) * Math.sin(alpha) + ((m * grav)/k) ) * ( 1 - Math.pow(eul, ((-k)/m)*tvar )) - grav * tvar );
 		}
     
 			return(yollo);
