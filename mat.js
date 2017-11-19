@@ -44,31 +44,16 @@ function getYox (casen, ChartParams){
         break;
         
     case 2:
-        
-        function yolly(x) {
-        
-		if (vprev == 0) {
-			vprev = vo * Math.cos(alpha);
+
+    function yollo( x ) {
+      var tvar = Math.log( (x * k)/(- vo * Math.cos(alpha) * m) + 1 ) * ((-m)/k);
+			return (10*m/k) * ( ( Math.sqrt(vo) * Math.sin(alpha) + ((m * grav)/k) ) * ( 1 - Math.pow(eul, ((-k)/m)*tvar )) - grav * tvar );
 		}
-		if (vyprev == 0) {
-			vprev = vo * Math.sin(alpha);
-		}
+    
+			return(yollo);
 
-
-		deltt = (x - xprev) / vprev;
-		vprev = vprev - (k/m) * vprev * deltt;
-		xprev = x;
-		vyprev = vyprev - (grav + (k/m) * vyprev) * deltt;
-		yprev = yprev + vyprev*deltt;
-		
-		return (yprev);
-
-        }
-        
-			return(yolly);
-			
         break;
-          
+
         
           default:
           function yoo(x) {
