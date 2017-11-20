@@ -3,7 +3,7 @@ interface ChartParams {
     velocity: number;
     angle: number;
     mass: number;
-    coefficent: number;
+    coefficent: number; //TODO: replace with radius
     startY: number;
 }
 
@@ -30,15 +30,14 @@ class GraphChart {
         let t = graphics.drawChart(dep, impoints, paper, paperSize, fields, scale);
         Chart.scale = t.scale;
         this.path = t;
-        //if (!scale)
-            this.axis = graphics.drawAxis(paper, paperSize, Chart.scale, {x: 'x', y: 'y'});
         this.lines = graphics.drawScale(paper, paperSize, impoints.highest, Chart.scale, fields);
     }
 }
 
 class Chart {
-    public static scale: number = 0;
-    public static gravAcc: number = 9.8;
+    public static scale: number = 0;    //TODO: remake scaling
+                                        //TODO: make customizable
+    public static gravAcc: number = 9.8;//TODO: make customizable
     public static paper: Snap.Paper;
     public static size: graphics.Size;
 
@@ -144,10 +143,6 @@ class Chart {
     }
 
     erase(): void {
-        if (this._chart.axis)
-            Object.getOwnPropertyNames(this._chart.axis).forEach((k, i) => {
-                this._chart.axis[k].remove();
-            });
         Object.getOwnPropertyNames(this._chart.lines).forEach((k, i) => {
             this._chart.lines[k].remove();
         })
@@ -280,7 +275,7 @@ namespace consts {
     export const LIST_ID = "#chart-list";
     export const DRAW_BTN_ID = "#btn-draw";
     export const ADD_BTN_ID = "#btn-add";
-    export const EXPORT_BTN_ID = "#btn-export";
+    export const EXPORT_BTN_ID = "#btn-export"; //TODO: Add export feature
     export const DELETE_BTN_CLASS = ".btn-delete";
 }
 
@@ -293,7 +288,9 @@ $(document).ready(function () {
     manager.add(0);
 
     Chart.paper = Snap("#canvas");
-    let resizePaper = () => Chart.size = { width: svg.width(), height: svg.height() };
+    let resizePaper = () => {
+        Chart.size = { width: svg.width(), height: svg.height() };
+    };
     resizePaper();
 
     $(consts.DRAW_BTN_ID).click((e) => {
@@ -314,10 +311,16 @@ $(document).ready(function () {
         rebind();
     });
 
+    let axis: graphics.Axis;
+    const LABELS: graphics.AxisLabels = { x: 'x', y: 'y' };
     $(window).resize((e) => {
         Chart.scale = 0;
         resizePaper();
         manager.refreshCharts();
+
+        if (!!axis)
+            Object.getOwnPropertyNames(axis).forEach((k) => axis[k].remove());
+        axis = graphics.drawAxis(Chart.paper, Chart.size, Chart.scale, LABELS);
     })
 });
 
