@@ -1,4 +1,7 @@
 ﻿namespace graphics {
+    /**
+    * Svg element, additionaly storing the scale of the chart.
+    */
     export interface ChartElement extends Snap.Element {
         scale: number;
     }
@@ -26,6 +29,9 @@
         scaleLabelY: Snap.Element;
     }
 
+    /**
+    * Labels to write under axis.
+    */
     export interface AxisLabels {
         x: string;
         y: string;
@@ -36,21 +42,35 @@
         y: number;
     }
 
+    /**
+    * Key points, which are required to build a chart.
+    */
     export interface ImportantPoints {
         start: Point;
         highest: Point;
         end: Point;
     }
 
-    //export type Dependency = (arg: number) => number;
+    /**
+    * Callback, representing physical dependency.
+    * @param {number} arg dependency argument
+    * @returns {number} calculated result
+    *
+    * @example
+    * let d: Dependency = (x) => Math.pow(x, 2);
+    * //Math dependency y = x^2
+    */
     export interface Dependency {
         (arg: number): number;
+
+        /**
+        * key points, relating to this dependency
+        */
         imppoints?: ImportantPoints;
     }
 
     /**
-     * Draws markers showing coordinates of the specific point
-     * @function drawScale
+     * Draws markers showing coordinates of the specific point.
      * @param {Snap.Paper}  canvas canvas to draw on
      * @param {Size}        paperSize size of the canvas
      * @param {Point}       point point which needs to be marked
@@ -80,7 +100,6 @@
 
     /**
      * Draws chart from two coordinate functions.
-     * @function drawChart
      * @param {Dependency}      dep function, providing y coordinate from x
      * @param {ImportantPoints} impoints starting, highest and ending point
      * @param {Snap.Paper}      canvas canvas to draw on
@@ -134,13 +153,11 @@
 
     /**
      * Draws two axis on provided canvas.
-     * @function drawAxis
      * @param {Snap.Paper}  canvas  canvas to draw on
      * @param {Size}        size    size of the canvas
      * @param {number}      scale   scale of a single segment
      * @param {AxisLabels}  labels  labels to write under the axis
-     * @param {number}      fields  fields around the canvas
-     *
+     * @param {number}      fields  fields around the 
      * @returns {Axis}  axis object, containing both axis
      */
     export function drawAxis(canvas: Snap.Paper, size: Size, scale: number,

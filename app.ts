@@ -1,3 +1,6 @@
+/**
+* Represents all data, which is required to build a chart.
+*/
 interface ChartParams {
     chartType: ChartType;
     velocity: number;
@@ -7,19 +10,34 @@ interface ChartParams {
     startY: number;
 }
 
+/**
+* Represents item in table id, binding gui with chart.
+*/
 interface IdItem {
     gui: ChartGui;
     chart?: Chart;
 }
 
+/**
+* Table, containing chart-gui items.
+*/
 interface IdTable {
     [id: number]: IdItem;
 }
 
+/**
+* Enumerates all possible types of chart.
+*/
 enum ChartType { noResistance, proportional, squareProportional }
 
+/**
+* Order of parameters as they ordered in GUI.
+*/
 enum InputOrder { velocity, angle, mass, coefficent, startY}
 
+/**
+ * Represents drawn chart.
+ */
 class GraphChart {
     public readonly path: graphics.ChartElement;
     public readonly axis?: graphics.Axis;
@@ -34,14 +52,26 @@ class GraphChart {
     }
 }
 
+/**
+ * Represents chart with all it's data.
+ */
 class Chart {
+    /**
+    * scale, used to draw all charts
+    */
     public static scale: number = 0;    //TODO: remake scaling
-                                        //TODO: make customizable
-    public static gravAcc: number = 9.8;//TODO: make customizable
+    /**
+    * Gravitational acceleration
+    * @todo make customizable
+    */
+    public static gravAcc: number = 9.8;
     public static paper: Snap.Paper;
     public static size: graphics.Size;
 
     public type: ChartType;
+    /**
+    * If this field is true - chart will automatically refresh when gets new value.
+    */
     public autoInvalidate: boolean = false;
     private _chart: GraphChart;
     private _coefficent: number;
@@ -109,6 +139,10 @@ class Chart {
         };
     }
 
+    /**
+     * Function, generating random color.
+     * @returns {string} Color like "#AD9C12".
+     */
     private static getRandomColor(): string {
         const LETTERS = '0123456789ABCDEF';
         let color = '#';
@@ -150,9 +184,15 @@ class Chart {
     }
 }
 
+/**
+ * Class, representing GUI, related to concrete chart.
+ */
 class ChartGui {
     public static template: string;
 
+    /**
+    * Gui in the presentation of JQuery set.
+    */
     public gui: JQuery<HTMLElement>;
     public id: number|string;
 
@@ -202,6 +242,9 @@ class ChartGui {
     }
 }
 
+/**
+ * Facade, controling gui's, chart's and they graphic representation.
+ */
 class Manager {
     public validated: boolean = true;
     private table: IdTable = {};
@@ -209,6 +252,9 @@ class Manager {
 
     get items(): IdTable { return this.table };
 
+    /**
+     * @param list Html list containing chartGUI's to manage.
+     */
     constructor(list: JQuery<HTMLElement>) {
         this.list = list;
     }
@@ -270,6 +316,9 @@ class Manager {
     }
 }
 
+/**
+ * Namespace, containing css-query consts using in JQuery.
+ */
 namespace consts {
     export const COLOR_SHOW_CLASS = ".color-show";
     export const LIST_ID = "#chart-list";
@@ -292,7 +341,6 @@ $(document).ready(function () {
         Chart.size = { width: svg.width(), height: svg.height() };
     };
     resizePaper();
-
     $(consts.DRAW_BTN_ID).click((e) => {
         manager.createOrModifyAll();
     });

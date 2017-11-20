@@ -3,7 +3,7 @@
     "noImplicitAny": false,
     "module": "none",
     "noEmitOnError": true,
-    "removeComments": false,
+    "removeComments": true,
     "sourceMap": false,
     "target": "es2015",
     "allowJs": false,
