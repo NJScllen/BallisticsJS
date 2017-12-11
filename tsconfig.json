@@ -7,6 +7,7 @@
     "sourceMap": false,
     "target": "es2015",
     "allowJs": false,
-    "typeRoots": [ "./typings" ]
+    "typeRoots": [ "./typings" ],
+    "outFile": "./app.js"
   }
 }
